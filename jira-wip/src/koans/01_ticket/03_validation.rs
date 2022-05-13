@@ -24,7 +24,20 @@ struct Ticket {
 /// We will learn a better way to handle recoverable errors such as this one further along,
 /// but let's rely on panic for the time being.
 fn create_ticket(title: String, description: String, status: Status) -> Ticket {
-    todo!()
+    if title == "" || description == "" {
+        panic!("title/desc cannot be empty");
+    }
+
+    if title.chars().count() > 50 || description.chars().count() > 3000 {
+        panic!("title/desc cannot be  that long really");
+    }
+
+    Ticket {
+        title,
+        description,
+        status,
+    }
+    // validate(ticket.clone)
 }
 
 #[cfg(test)]

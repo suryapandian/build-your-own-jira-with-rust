@@ -6,6 +6,7 @@
 /// for a ticket is fixed and can't be customised by the user.
 /// A ticket is either in the to-do column, in progress, blocked or done.
 /// What is the best way to represent this information in Rust?
+#[derive(Clone)]
 struct Ticket {
     title: String,
     description: String,
@@ -23,11 +24,13 @@ struct Ticket {
 /// https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html
 ///
 /// Let's create a variant for each of the allowed statuses of our tickets.
+#[derive(Clone)]
 pub enum Status {
     ToDo,
-    __
+    Blocked,
+    InProgress,
+    Done,
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -39,7 +42,7 @@ mod tests {
         let ticket = Ticket {
             title: "A ticket title".into(),
             description: "A heart-breaking description".into(),
-            status: __
+            status: Status::Blocked,
         };
 
         // Let's check that the status corresponds to what we expect.
@@ -64,7 +67,9 @@ mod tests {
             //
             // We are panicking in this case, thus making the test fail if this branch of our
             // match statement gets executed.
-            Status::ToDo | Status::InProgress | Status::Done => panic!("The ticket is not blocked!")
+            Status::ToDo | Status::InProgress | Status::Done => {
+                panic!("The ticket is not blocked!")
+            }
         }
     }
 }
